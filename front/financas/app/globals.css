@@ -1,0 +1,170 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1a1a2e;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  flex: 1;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar .links {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar .links a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+}
+
+.navbar .links a:hover {
+  text-decoration: underline;
+}
+
+/* BOTÃO HAMBÚRGUER */
+.hamburger {
+  display: block; /* Ícone de hambúrguer visível em todas as telas */
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  right: 1300px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 60px; /* Espaço para a navbar */
+  width: 250px;
+  height: calc(100vh - 60px);
+  background-color: #16213e;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+
+.sidebar {
+  transform: translateX(-100%); /* Inicialmente fora da tela */
+}
+.sidebar.open {
+  width: 200px;
+  transform: translateX(-100%); /* Esconde no mobile */
+}
+
+/* MAIN CONTENT */
+.main-content {
+  margin-left: 260px; /* Espaço para a sidebar */
+  padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.shift {
+  margin-left: 0; /* Shift para a direita quando a sidebar estiver aberta */
+}
+
+/* FOOTER */
+.footer {
+  width: 100%;
+  background-color: #1a1a2e;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: auto;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  /* Navbar */
+  .navbar .links {
+    display: none; /* Esconde os links no mobile */
+  }
+
+  /* Sidebar no mobile */
+  .sidebar {
+    width: 200px;
+    transform: translateX(-100%); /* Esconde no mobile */
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Aparece quando aberta */
+  }
+
+  /* Main content no mobile */
+  .main-content {
+    margin-left: 0;
+  }
+
+  .main-content.shift {
+    margin-left: 200px; /* Ajusta quando a sidebar está aberta */
+  }
+  .hamburger{
+    right: 10px;
+
+  }
+}
+
+/* Em telas maiores a sidebar fica visível, o hambúrguer continua funcional */
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0); /* Sidebar visível sempre */
+  }
+
+  .hamburger {
+    display: block; /* Ícone de hambúrguer visível sempre */
+  }
+
+  /* Ajusta o conteúdo quando a sidebar está visível */
+  .main-content {
+    margin-left: 250px; /* A sidebar está sempre visível em telas maiores */
+  }
+}
