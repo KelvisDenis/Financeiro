@@ -6,10 +6,10 @@
   font-family: Arial, sans-serif;
 }
 
-body {
+html, body {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   background-color: #f4f4f4;
   color: #333;
 }
@@ -53,21 +53,21 @@ body {
 
 /* BOTÃO HAMBÚRGUER */
 .hamburger {
-  display: block; /* Ícone de hambúrguer visível em todas as telas */
+  display: block;
   background: none;
   border: none;
   font-size: 2rem;
   color: white;
   cursor: pointer;
   position: absolute;
-  right: 1300px;
+  right: 1200px;
 }
 
 /* SIDEBAR */
 .sidebar {
   position: fixed;
   left: 0;
-  top: 60px; /* Espaço para a navbar */
+  top: 60px;
   width: 250px;
   height: calc(100vh - 60px);
   background-color: #16213e;
@@ -91,80 +91,78 @@ body {
   border-radius: 5px;
 }
 
-
 .sidebar {
-  transform: translateX(-100%); /* Inicialmente fora da tela */
-}
-.sidebar.open {
   width: 200px;
-  transform: translateX(-100%); /* Esconde no mobile */
+  transform: translateX(0);
+}
+
+.sidebar.open {
+  transform: translateX(-100%);
 }
 
 /* MAIN CONTENT */
 .main-content {
-  margin-left: 260px; /* Espaço para a sidebar */
+  flex: 1; /* Faz com que o conteúdo ocupe o espaço disponível */
+  margin-left: 260px;
   padding: 20px;
-  flex-grow: 1;
   transition: margin-left 0.3s ease;
 }
 
 .main-content.shift {
-  margin-left: 0; /* Shift para a direita quando a sidebar estiver aberta */
+  margin-left: 0;
 }
 
-/* FOOTER */
+/* FOOTER FIXO */
 .footer {
   width: 100%;
   background-color: #1a1a2e;
   color: white;
   text-align: center;
   padding: 15px;
-  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
-  /* Navbar */
   .navbar .links {
-    display: none; /* Esconde os links no mobile */
+    display: none;
   }
 
-  /* Sidebar no mobile */
   .sidebar {
     width: 200px;
-    transform: translateX(-100%); /* Esconde no mobile */
+    transform: translateX(-100%);
   }
 
   .sidebar.open {
-    transform: translateX(0); /* Aparece quando aberta */
+    transform: translateX(0);
   }
 
-  /* Main content no mobile */
   .main-content {
     margin-left: 0;
   }
 
-  .main-content.shift {
-    margin-left: 200px; /* Ajusta quando a sidebar está aberta */
-  }
-  .hamburger{
+  .hamburger {
     right: 10px;
+  }
 
+  .main-content.hide-when-sidebar {
+    margin-left: 200px;
+    pointer-events: none;
   }
 }
 
-/* Em telas maiores a sidebar fica visível, o hambúrguer continua funcional */
 @media (min-width: 769px) {
   .sidebar {
-    transform: translateX(0); /* Sidebar visível sempre */
+    transform: translateX(0);
   }
 
   .hamburger {
-    display: block; /* Ícone de hambúrguer visível sempre */
+    display: block;
   }
 
-  /* Ajusta o conteúdo quando a sidebar está visível */
   .main-content {
-    margin-left: 250px; /* A sidebar está sempre visível em telas maiores */
+    margin-left: 250px;
   }
 }
