@@ -1,27 +1,20 @@
 "use client"; // No início do arquivo
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import Table from "./components/Table";
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    setIsMounted(true); // Define que o componente foi montado no cliente
-  }, []);
-
-  useEffect(() => {
-    console.log("dentro")
-    if (isMounted && router) {
       const isAuthenticated = localStorage.getItem("isLoggedIn") === "true";
       setIsLoggedIn(isAuthenticated);
 
       if (!isAuthenticated && router.pathname !== "/Login") {
         router.push("/Login");
       }
-    }
-  }, [isMounted, router]);
+  }, [router]);
 
   const transactions = [
     { date: "27/02/2025", type: "Receita", description: "Salário", value: "R$ 5.000" },

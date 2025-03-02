@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import styles from "../Login.module.css"; // Importa o CSS local
-import { useRouter } from "next/router"; // Importa o useRouter
+import { useRouter } from "next/navigation";
 
 
 export default function Login() {
@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     console.log("Email:", email, "Senha:", password);
     // Aqui você pode adicionar a lógica de autenticação
-    localStorage.setItem("isLoggedIn", true)
+    localStorage.setItem("isLoggedIn", "true")
     router.push("/"); 
 
   };

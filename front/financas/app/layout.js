@@ -2,24 +2,28 @@
 
 import { useEffect, useState } from "react";
 import "./globals.css"; // Importa o CSS
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
 
   useEffect(() => {
-    // Somente no cliente
-      const isAuthenticated = localStorage.getItem("isLoggedIn") === true; // Verificação corrigida para a string "true"
-      setIsLoggedIn(isAuthenticated);
+    let validationLog= localStorage.getItem("isLoggedIn")
+    console.log("verificando: "+ validationLog === "true")
+    // Verifique se o usuário está autenticado
+    const isAuthenticated = validationLog === "true"; // Aqui você pode verificar o login de outras formas
+    setIsLoggedIn(isAuthenticated);
 
-      if (!isAuthenticated) {
-        handleLogout(); // Se não estiver autenticado, redireciona para a tela de login
-      }
-    
-  },[
-    
-  ]);
+    // Se não estiver logado, redireciona para a página de login
+    if (!isAuthenticated && router.pathname !== "Login") {
+      router.push("/Login");
+    }
+  }, [router.pathname]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -35,11 +39,11 @@ export default function Layout({ children }) {
           <div className="links">
             <a href="/">Home</a>
             {isLoggedIn ? (
-              <button onClick={handleLogout}>Sair</button>
+              <Link href={"/Login"} onClick={handleLogout}>Sair</Link>
             ) : (
-              <a href="/login">Login</a>
+              <Link href="/Login">Login</Link>
             )}
-            <a href="/relatorios">Configuração</a>
+            <Link href="/relatorios">Configuração</Link>
           </div>
           {/* Ícone de hambúrguer */}
           <button className="hamburger" onClick={toggleSidebar}>
@@ -49,10 +53,11 @@ export default function Layout({ children }) {
 
         {/* Sidebar */}
         <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-          <a href="/">🏠 Home</a>
-          <a href="/receitas">💰 Receitas</a>
-          <a href="/despesas">📉 Despesas</a>
-          <a href="/relatorios">📊 Relatórios</a>
+          <Link href="/">🏠 Home</Link>
+          <Link href="/receitas">💰 Receitas</Link>
+          <Link href="/despesas">📉 Despesas</Link>
+          <Link href="/relatorios">📊 Relatórios</Link>
+          <Link href="/Login" onClick={handleLogout}>Sair</Link>
         </aside>
 
         {/* Conteúdo Principal */}
