@@ -1,37 +1,25 @@
 import styles from "../Table.module.css";
+import Card from "./card";
 
 export default function Table({ data }) {
   return (
     <div className={styles.tableContainer}>
-        <h3 className={styles.titleh2}>Historico</h3>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className={styles.header}>Data</th>
-            <th className={styles.header}>Tipo</th>
-            <th className={styles.header}>Descrição</th>
-            <th className={styles.header}>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.length > 0 ? (
-            data.map((item, index) => (
-              <tr key={index} className={styles.rowHover}>
-                <td className={styles.cell}>{item.date}</td>
-                <td className={`${styles.cell} ${styles[item.type.toLowerCase()]}`}>{item.type}</td>
-                <td className={styles.cell}>{item.description}</td>
-                <td className={styles.cell}>{item.value}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4" className={styles.cell}>
-                Nenhuma transação registrada
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <h3 className={styles.title}>Histórico</h3>
+      <div className={styles.cardGrid}>
+        {data.length > 0 ? (
+          data.map((item, index) => (
+            <Card
+              key={index}
+              date={item.date}
+              type={item.type}
+              description={item.description}
+              value={item.value}
+            />
+          ))
+        ) : (
+          <p className={styles.noTransactions}>Nenhuma transação registrada</p>
+        )}
+      </div>
     </div>
   );
 }

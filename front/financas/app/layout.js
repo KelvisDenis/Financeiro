@@ -4,6 +4,13 @@ import { useEffect, useState } from "react";
 import "./globals.css"; // Importa o CSS
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { AiFillSetting } from "react-icons/ai";
+import { PiCheckFatFill } from "react-icons/pi";
+import { FcPlus } from "react-icons/fc";
+
+
+
 
 export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -11,24 +18,47 @@ export default function Layout({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    let validationLog= localStorage.getItem("isLoggedIn")
-    console.log("verificando: "+ validationLog === "true")
-    // Verifique se o usuário está autenticado
-    const isAuthenticated = validationLog === "true"; // Aqui você pode verificar o login de outras formas
-    setIsLoggedIn(isAuthenticated);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768); // Defina um valor de breakpoint adequado
+      console.log("valor do ismobile: "+ isMobile)
+    };
+  
+    checkMobile(); // Verifica no carregamento
+    window.addEventListener("resize", checkMobile); // Atualiza ao redimensionar
+  
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [])
 
-    // Se não estiver logado, redireciona para a página de login
-    if (!isAuthenticated && router.pathname !== "Login") {
-      router.push("/Login");
+  const checkLoginStatus = () => {
+    const validationLog = localStorage.getItem("isLoggedIn");
+    if (validationLog === "true") {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
-  }, [router.pathname]);
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+
+    // Adiciona um evento para escutar mudanças no localStorage
+    const handleStorageChange = () => {
+      checkLoginStatus();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn"); // Remove o item do localStorage
-    router.push("/Login"); // Redireciona para a tela de login
+    localStorage.removeItem("isLoggedIn");
+    router.push("/Login");
   };
   return (
     <html lang="pt">
@@ -39,11 +69,22 @@ export default function Layout({ children }) {
           <div className="links">
             <a href="/">Home</a>
             {isLoggedIn ? (
+              <>
               <Link href={"/Login"} onClick={handleLogout}>Sair</Link>
+              <div className="sidebar-item">
+                  <Link href="/relatorios">
+                  <AiFillSetting />
+                    Configuração
+                  </Link>
+                </div>
+                </>
             ) : (
-              <Link href="/Login">Login</Link>
+              <>
+                <Link href="/Login">Entrar</Link>
+                <Link href="/Login">Cadastrar</Link>
+              </>
             )}
-            <Link href="/relatorios">Configuração</Link>
+          
           </div>
           {/* Ícone de hambúrguer */}
           <button className="hamburger" onClick={toggleSidebar}>
@@ -54,10 +95,39 @@ export default function Layout({ children }) {
         {/* Sidebar */}
         <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
           <Link href="/">🏠 Home</Link>
-          <Link href="/receitas">💰 Receitas</Link>
-          <Link href="/despesas">📉 Despesas</Link>
-          <Link href="/relatorios">📊 Relatórios</Link>
-          <Link href="/Login" onClick={handleLogout}>Sair</Link>
+          <Link href="/CriarReceita">
+          <div className="sidebar-item">
+            <FcPlus/>
+            Transação
+          </div>
+          </Link>
+          <Link href="/Receitas">💰 Receitas/Saldo</Link>
+          <Link href="/Despesas">📉 Despesas</Link>
+          <Link href="/relatorios">
+          <PiCheckFatFill />Metas
+          </Link>
+          <Link href="/relatorios">📊 Relatórios</Link> 
+          {isMobile && (
+            <>
+              {isLoggedIn ? (
+                <>
+                <div className="sidebar-item">
+                  <Link href="/relatorios">
+                    <AiFillSetting />Configuração
+                  </Link>
+                </div>
+                <Link href={"/Login"} onClick={handleLogout}>Sair</Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/Login">Entrar</Link>
+                  <Link href="/Login">Cadastrar</Link>
+                </>
+              )}
+            </>
+            )}
+            
+
         </aside>
 
         {/* Conteúdo Principal */}

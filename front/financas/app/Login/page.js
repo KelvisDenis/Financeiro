@@ -18,7 +18,7 @@ export default function Login() {
     // Aqui você pode adicionar a lógica de autenticação
     localStorage.setItem("isLoggedIn", "true")
     router.push("/"); 
-
+    console.log("local" + localStorage.getItem("isLoggedIn"));
   };
 
   return (

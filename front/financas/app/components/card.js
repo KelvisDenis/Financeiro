@@ -1,11 +1,14 @@
-import styles from "../card.module.css";
+import styles from "../Card.module.css";
 
-export default function Card({ title, value, icon }) {
-    return (
-      <div className={styles.card}>
-        <div className={styles["card-icon"]}>{icon}</div>
-        <h3 className={styles["card-title"]}>{title}</h3>
-        <p className={styles["card-value"]}>{value}</p>
+export default function Card({ date, type, description, value }) {
+  return (
+    <div className={`${styles.card} ${styles[type.toLowerCase()]}`}>
+      <div className={styles.cardHeader}>
+        <span className={styles.cardDate}>{date}</span>
+        <span className={styles.cardType}>{type}</span>
       </div>
-    );
-  }
+      <p className={styles.cardDescription}>{description}</p>
+      <p className={styles.cardValue}>{value}</p>
+    </div>
+  );
+}
