@@ -103,7 +103,7 @@ export default function Layout({ children }) {
           </Link>
           <Link href="/Receitas">💰 Receitas/Saldo</Link>
           <Link href="/Despesas">📉 Despesas</Link>
-          <Link href="/Relatorios">
+          <Link href="/Metas">
           <PiCheckFatFill />Metas
           </Link>
           <Link href="/Relatorio">📊 Relatórios</Link> 

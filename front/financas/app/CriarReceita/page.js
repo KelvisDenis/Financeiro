@@ -8,6 +8,7 @@ export default function CriarReceita() {
   const [categoria, setCategoria] = useState(""); // Categoria da transação
   const [titulo, setTitulo] = useState(""); // Título da transação
   const [data, setData] = useState(""); // Data da transação
+  const [titleOther, setTitleOther] = useState("");
   const router = useRouter();
 
     const checkLoginStatus = () => {
@@ -96,8 +97,8 @@ export default function CriarReceita() {
                   <input
                     type="text"
                     id="titulo"
-                    value={categoria}
-                    onChange={(e) => setCategoria(e.target.value)}
+                    value={titleOther}
+                    onChange={(e) => setTitleOther(e.target.value)}
                     placeholder="Nome da categoria"
                     className="form-input"
                   />

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import styles from "../Login.module.css"; // Importa o CSS local
 import { useRouter } from "next/navigation";
+import fetchLogin from "../api/login.user";
 
 
 export default function Login() {
@@ -12,13 +13,17 @@ export default function Login() {
   const router = useRouter(); 
 
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Email:", email, "Senha:", password);
     // Aqui você pode adicionar a lógica de autenticação
+    const resp = await fetchLogin(email, password);
+    console.log("data "+ resp.result)
+    if(resp.result === false && resp.result !== null) return
     localStorage.setItem("isLoggedIn", "true")
-    router.push("/"); 
-    console.log("local" + localStorage.getItem("isLoggedIn"));
+    localStorage.setItem("token", resp.token); // 🔹 Salva o token no localStorage
+    localStorage.setItem("user", JSON.stringify(resp.name)); // 🔹 Salva o nome do usuário
+    router.push("/"); // 🔹 Redireciona para a página principal
   };
 
   return (
