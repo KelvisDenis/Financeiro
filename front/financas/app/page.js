@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const username = localStorage.getItem("user")
+
   const router = useRouter();
 
     const checkLoginStatus = () => {
@@ -44,7 +46,7 @@ export default function Home() {
 
   return (
     <div className="content-home">
-      <h2>Bem-vindo ao Meu Financeiro</h2>
+      <h2>Bem-vindo ao Meu Financeiro {username}</h2>
       <p>Gerencie suas receitas e despesas de forma simples!</p>
       <Table data={transactions} />
     </div>

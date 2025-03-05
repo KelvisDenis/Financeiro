@@ -13,7 +13,7 @@ export class UsuariosController {
     return this.usuariosService.listarUsuarios();
   }
 
-  @Post()
+  @Post("create")
   criarUsuario(@Body() dados: CriarUsuarioDto) {
     return this.usuariosService.criarUsuario(dados);
   }
